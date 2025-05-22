@@ -87,6 +87,7 @@ function endGame(message, lost = false) {
     status.textContent = message;
     if (lost) failSound.play();
     revealStar();
+    hint.style.display = 'none';
     replayButton.style.display = 'inline-block';
   }
 
