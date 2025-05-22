@@ -31,6 +31,7 @@ function initGame() {
   timer.textContent = `Time left: 30s`;
   status.textContent = `Flips left: ${maxFlips}`;
   hint.textContent = ''; // Clear hint
+  hint.style.display = 'block'; // Ensure the hint is visible at the start of a new game
   replayButton.style.display = 'none';
   clearInterval(timerInterval); // Clear any existing timer
 
@@ -87,7 +88,7 @@ function endGame(message, lost = false) {
     status.textContent = message;
     if (lost) failSound.play();
     revealStar();
-    hint.style.display = 'none';
+    hint.textContent = '';
     replayButton.style.display = 'inline-block';
   }
 
@@ -110,7 +111,6 @@ function endGame(message, lost = false) {
   }
 
   function provideHint(index) {
-      if (starFound) return;
       const distance = calculateManhattanDistance(index);
       hint.textContent = `Distance to the star: ${distance}`;
   }
