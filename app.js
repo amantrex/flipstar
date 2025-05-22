@@ -109,6 +109,7 @@ function endGame(message, lost = false) {
   }
 
   function provideHint(index) {
+      if (starFound) return;
       const distance = calculateManhattanDistance(index);
       hint.textContent = `Distance to the star: ${distance}`;
   }
