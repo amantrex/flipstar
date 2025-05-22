@@ -9,6 +9,27 @@
 </head>
 <body>
   <h1>Find the Star</h1>
+  
+  <!-- Rules Button and Modal -->
+  <button id="rules-btn" class="rules-btn" aria-label="Show Rules">Rules</button>
+
+  <div id="rules-modal" class="rules-modal">
+    <div class="rules-modal-content">
+      <button id="close-rules" class="close-rules" aria-label="Close Rules">×</button>
+      <h2>How to Play</h2>
+      <ul>
+        <li>Flip tiles to find the hidden <strong>star</strong>.</li>
+        <li>You have <strong>10 flips</strong> and <strong>30 seconds</strong> to find it.</li>
+        <li>Each tile flip reveals a hint showing the distance to the star.</li>
+        <li><strong>Green tiles</strong> also flip their adjacent top, bottom, left, and right tiles.</li>
+        <li><strong>Blue tiles</strong> also flip their diagonal neighbors.</li>
+        <li>Use logic and hints to narrow down the star's location.</li>
+        <li>Click <strong>"Play Again"</strong> to restart the game.</li>
+        <li>Good luck!</li>
+      </ul>
+    </div>
+  </div>
+
   <div id="game-board"></div>
   <div id="status">Flips left: 10</div>
   <div id="timer">Time left: 30s</div>

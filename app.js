@@ -174,4 +174,25 @@ function endGame(message, lost = false) {
     initGame();
   });
 
+    const rulesBtn = document.getElementById('rules-btn');
+    const rulesModal = document.getElementById('rules-modal');
+    const closeRules = document.getElementById('close-rules');
+
+    rulesBtn.addEventListener('click', () => {
+      rulesModal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    });
+
+    closeRules.addEventListener('click', () => {
+      rulesModal.style.display = 'none';
+      document.body.style.overflow = '';
+    });
+
+    rulesModal.addEventListener('click', (e) => {
+      if (e.target === rulesModal) {
+      rulesModal.style.display = 'none';
+      document.body.style.overflow = '';
+      }
+    });
+
   initGame();
