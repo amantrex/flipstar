@@ -213,7 +213,7 @@ h1 {
 #replay {
     display: none;
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #13334a;
     color: white;
     border: none;
     border-radius: 5px;
@@ -240,7 +240,7 @@ h1 {
     font-size: 1rem;
     border-radius: 8px;
     border: none;
-    background: #007bff;
+    background: #13334a;
     color: #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
