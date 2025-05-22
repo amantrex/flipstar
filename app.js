@@ -4,13 +4,13 @@ let flipCount = 0;
 let starFound = false;
 let timeLeft = 30;
 let timerInterval;
-let gameStarted = false;  // Flag to track if the game has started
+let gameStarted = false;
 
 const board = document.getElementById('game-board');
 const status = document.getElementById('status');
 const timer = document.getElementById('timer');
 const replayButton = document.getElementById('replay');
-const hint = document.getElementById('hint');  // Hint element
+const hint = document.getElementById('hint');
 
 const flipSound = document.getElementById('flip-sound');
 const starSound = document.getElementById('star-sound');
@@ -19,7 +19,7 @@ const failSound = document.getElementById('fail-sound');
 const tiles = [];
 const getIndex = (row, col) => row * boardSize + col;
 
-let starTile; // Declare starTile outside initGame to persist
+let starTile;
 
 function initGame() {
   board.innerHTML = '';
@@ -30,7 +30,7 @@ function initGame() {
   gameStarted = false;
   timer.textContent = `Time left: 30s`;
   status.textContent = `Flips left: ${maxFlips}`;
-  hint.textContent = ''; // Clear hint
+  hint.textContent = '';
   hint.style.display = 'block'; // Ensure the hint is visible at the start of a new game
   replayButton.style.display = 'none';
   clearInterval(timerInterval); // Clear any existing timer
