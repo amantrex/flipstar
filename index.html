@@ -15,7 +15,10 @@
 
   <div id="rules-modal" class="rules-modal">
     <div class="rules-modal-content">
-      <button id="close-rules" class="close-rules" aria-label="Close Rules">×</button>
+      <!-- ACCESSIBILITY FIX: Hide the visual 'x' from screen readers -->
+      <button id="close-rules" class="close-rules" aria-label="Close Rules">
+        <span aria-hidden="true">×</span>
+      </button>
       <h2>How to Play</h2>
       <ul>
         <li>Flip tiles to find the hidden <strong>star</strong>.</li>
