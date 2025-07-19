@@ -3,19 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Flip the Tile Game - Strategic Edition</title>
+  <title>Find the Star - Cosmic Edition</title>
+  
+  <!-- Google Fonts Link for 'Poppins' -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <link rel="stylesheet" href="styles.css" />
   <script src="app.js" defer></script>
 </head>
 <body>
   <h1>Find the Star</h1>
   
-  <!-- Rules Button and Modal -->
   <button id="rules-btn" class="rules-btn" aria-label="Show Rules">Rules</button>
 
   <div id="rules-modal" class="rules-modal">
     <div class="rules-modal-content">
-      <!-- ACCESSIBILITY FIX: Hide the visual 'x' from screen readers -->
       <button id="close-rules" class="close-rules" aria-label="Close Rules">
         <span aria-hidden="true">×</span>
       </button>
@@ -33,10 +37,17 @@
     </div>
   </div>
 
-  <div id="game-board"></div>
-  <div id="status">Flips left: 10</div>
-  <div id="timer">Time left: 30s</div>
+  <div id="game-board-container">
+    <div id="game-board"></div>
+  </div>
+
+  <!-- Grouped game info for better styling -->
+  <div class="game-info">
+      <div id="status">Flips left: 10</div>
+      <div id="timer">Time left: 30s</div>
+  </div>
   <div id="hint"></div>
+  
   <button id="replay">Play Again</button>
 
   <audio id="flip-sound" src="sounds/coin-flip.mp3"></audio>

@@ -1,245 +1,250 @@
+/* --- Root Variables and Global Styles --- */
+:root {
+    --bg-color: #121826;
+    --tile-bg: #2a324b;
+    --tile-bg-flipped: #4a5578;
+    --font-color: #e2e8f0;
+    --accent-green: #22c55e;
+    --accent-blue: #3b82f6;
+    --accent-gold: #f59e0b;
+    --border-radius: 8px;
+    --tile-size: 40px; /* Base size for desktop */
+}
+
 body {
-    font-family: Geneva, Verdana, sans-serif;
-    background: linear-gradient(to right, #13334a, #8c2847);
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--font-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     padding: 20px;
-    color: #333;
     box-sizing: border-box;
-    overflow-x: hidden; /* Prevent horizontal scroll */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 h1 {
-    margin-bottom: 10px;
-    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+/* --- Game Board & 3D Flip Mechanics --- */
+#game-board-container {
+    perspective: 1000px; /* Enables the 3D space for children */
 }
 
 #game-board {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 4px;
-    margin-bottom: 10px;
-    width: 100%;
-    max-width: 400px;
+    gap: 5px;
+    margin-bottom: 25px;
 }
 
 .tile {
-    aspect-ratio: 1;
-    background-color: black;
+    width: var(--tile-size);
+    height: var(--tile-size);
+    position: relative; /* Necessary for the 3D transform */
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    cursor: pointer;
+}
+
+/* Shared styles for the front and back faces of the tile */
+.tile::before, .tile::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    backface-visibility: hidden; /* Hides the back of the element when it's not facing the screen */
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    font-weight: bold;
-    color: #333;
-    border-radius: 2px;
-    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-    transition: all 0.2s ease;
-    font-size: 16px;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-.tile:hover {
-    transform: scale(1.05);
+/* Front of the tile (visible by default) */
+.tile::before {
+    background-color: var(--tile-bg);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
-.flipped {
-    background-color: white;
+/* Back of the tile (visible after flip) */
+.tile::after {
+    background-color: var(--tile-bg-flipped);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transform: rotateY(180deg);
+    color: #fff;
+}
+
+/* This class on the main .tile div triggers the animation */
+.tile.flipped {
+    transform: rotateY(180deg);
     cursor: default;
-    color: #333;
 }
 
-/* These styles only apply when a tile is both flipped AND has the type class */
-.green-tile.flipped {
-    background-color: #a8e6a1;
+/* --- Special Tile Styling (applied to the back face) --- */
+.green-tile.flipped::after {
+    background-color: var(--accent-green);
+    box-shadow: 0 0 12px var(--accent-green), 0 0 20px var(--accent-green);
 }
 
-.blue-tile.flipped {
-    background-color: #add8e6;
+.blue-tile.flipped::after {
+    background-color: var(--accent-blue);
+    box-shadow: 0 0 12px var(--accent-blue), 0 0 20px var(--accent-blue);
 }
 
-.star-glow {
-    background-color: gold !important;
-    animation: glow 1s ease infinite alternate;
+.tile.star-glow::after {
+    content: '★'; /* The star character appears here */
+    background-color: var(--accent-gold);
+    animation: star-pulse 1.5s infinite;
 }
 
-@keyframes glow {
-    from {
-        box-shadow: 0 0 5px gold;
-    }
-
-    to {
-        box-shadow: 0 0 15px gold;
-    }
+@keyframes star-pulse {
+    0% { box-shadow: 0 0 10px var(--accent-gold), 0 0 15px var(--accent-gold); }
+    50% { box-shadow: 0 0 20px var(--accent-gold), 0 0 30px var(--accent-gold); }
+    100% { box-shadow: 0 0 10px var(--accent-gold), 0 0 15px var(--accent-gold); }
 }
 
-/* Redesigned Rules Button */
+/* --- Game Info Panel (Status, Timer, Hint) --- */
+.game-info {
+    display: flex;
+    gap: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: rgba(0,0,0,0.2);
+    padding: 10px 25px;
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+}
+
+#hint {
+    font-size: 1rem;
+    font-style: italic;
+    color: #9ca3af;
+    min-height: 24px; /* Prevent layout shift when hint text appears/disappears */
+    margin-bottom: 20px;
+    transition: color 0.3s;
+}
+
+/* --- Buttons and Modal --- */
+#replay, .rules-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    letter-spacing: 0.5px;
+}
+
+#replay {
+    display: none;
+    background-color: var(--accent-green);
+    color: #fff;
+}
+#replay:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+}
+
 .rules-btn {
     position: fixed;
-    top: 18px;
-    right: 18px;
+    top: 20px;
+    right: 20px;
     z-index: 1000;
-    padding: 12px 26px;
-    font-size: 1.08rem;
-    border-radius: 24px;
-    border: none;
-    background: linear-gradient(90deg, #13334a 60%, #8c2847 100%);
-    color: #fff;
-    box-shadow: 0 4px 16px rgba(20, 30, 60, 0.18);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    transition: background 0.2s, transform 0.15s;
-    outline: none;
-    cursor: pointer;
+    background-color: var(--tile-bg-flipped);
+    color: var(--font-color);
+}
+.rules-btn:hover {
+    background-color: #5d6b98;
+    transform: translateY(-2px);
 }
 
-.rules-btn:hover,
-.rules-btn:focus {
-    background: linear-gradient(90deg, #8c2847 60%, #13334a 100%);
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 6px 24px rgba(140, 40, 71, 0.18);
-}
-
-/* Redesigned Modal Overlay */
+/* Modal Styling */
 .rules-modal {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(19, 51, 74, 0.82);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(18, 24, 38, 0.85);
+    backdrop-filter: blur(5px);
     z-index: 2000;
     align-items: center;
     justify-content: center;
     animation: modalFadeIn 0.3s;
 }
 
-@keyframes modalFadeIn {
-    from {
-        opacity: 0;
-    }
+@keyframes modalFadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    to {
-        opacity: 1;
-    }
-}
-
-/* Modal Content Box */
 .rules-modal-content {
-    background: linear-gradient(120deg, #13334a 80%, #8c2847 100%);
-    color: #fff;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(19, 51, 74, 0.25);
-    padding: 32px 28px 24px 28px;
-    max-width: 90%;
-    width: auto;
+    background: var(--tile-bg);
+    border: 1px solid var(--tile-bg-flipped);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    padding: 30px;
+    max-width: 450px;
+    width: 90%;
     position: relative;
-    animation: modalPopIn 0.25s;
-    max-height: 90%;
-    overflow-y: auto;
 }
 
-@keyframes modalPopIn {
-    from {
-        transform: scale(0.95);
-        opacity: 0;
-    }
-
-    to {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-/* Close Button */
-.close-rules {
-    position: absolute;
-    top: 14px;
-    right: 18px;
-    background: none;
-    border: none;
-    font-size: 2rem;
-    color: #ffd700;
-    cursor: pointer;
-    transition: color 0.18s;
-    line-height: 1; /* Helps with positioning */
-    padding: 0;
-}
-
-.close-rules:hover,
-.close-rules:focus {
-    color: #fff;
-}
-
-/* Modal Typography */
 .rules-modal-content h2 {
+    color: var(--accent-gold);
     margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 1.35rem;
-    color: #ffd700;
-    letter-spacing: 0.02em;
-    font-weight: 700;
+    margin-bottom: 15px;
 }
 
 .rules-modal-content ul {
-    padding-left: 1.3em;
-    font-size: 1.04rem;
-    line-height: 1.6;
-    color: #f5f5f5;
-    margin: 0;
-}
-
-.rules-modal-content li {
-    margin-bottom: 7px;
+    padding-left: 20px;
+    line-height: 1.7;
 }
 
 .rules-modal-content strong {
-    color: #ffd700;
+    color: var(--accent-gold);
+    font-weight: 600;
 }
 
-#status,
-#timer,
-#hint {
-    font-size: 18px;
-    margin: 5px;
-    color: white;
-}
-
-#replay {
-    display: none;
-    padding: 10px 20px;
-    background-color: #13334a;
-    color: white;
+.close-rules {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
     border: none;
-    border-radius: 5px;
+    font-size: 2rem;
+    line-height: 1;
+    color: #9ca3af;
     cursor: pointer;
-    margin-top: 10px;
-    font-size: 1rem;
-    transition: background-color 0.2s;
+    transition: color 0.2s;
+}
+.close-rules:hover {
+    color: #fff;
 }
 
-#replay:hover {
-    background-color: #1a4a6e;
-}
-
-#hint {
-    min-height: 22px; /* Prevent layout shift when hint appears */
-    margin-top: 10px;
-    font-style: italic;
-}
-
-
-/* Responsive Design */
+/* --- Responsive Design --- */
 @media (max-width: 500px) {
-    #game-board {
-        max-width: 95vw;
+    :root {
+        --tile-size: 32px;
     }
-
-    .rules-modal-content {
-        padding: 24px 6vw;
-        max-width: 95%;
+    h1 {
+        font-size: 2rem;
+    }
+    .game-info {
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+}
+@media (max-width: 380px) {
+    :root {
+        --tile-size: 28px;
     }
 }
